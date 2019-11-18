@@ -1,5 +1,6 @@
 from graphene import Schema
 from fastapi import FastAPI
+from starlette.requests import Request
 from starlette.graphql import GraphQLApp
 from graphql.execution.executors.asyncio import AsyncioExecutor
 from .models.schema import Query, Mutation
@@ -11,7 +12,7 @@ from .middleware.auth import AuthBackend
 origins = [
     "http://localhost",
     "http://127.0.0.1",
-    "http://127.0.0.1:3000"
+    "http://127.0.0.1:3000",
     "http://localhost:3000",
 ]
 
@@ -29,7 +30,8 @@ app.add_middleware(AuthenticationMiddleware, backend=AuthBackend())
 
 
 @app.post("/upload")
-async def upload(request):
+async def upload(request: Request):
+    print(request.method)
     form = await request.form()
     print(form)
 

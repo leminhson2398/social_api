@@ -36,4 +36,4 @@ class UploadFile(ObjectMutation):
 
 
 class Mutation(ObjectType):
-    upload_file = UploadFile.Field()
+    upload = UploadFile.Field()

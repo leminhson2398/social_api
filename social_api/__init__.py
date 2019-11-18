@@ -15,7 +15,10 @@ sys.path.append("..")
 
 
 # configure logging:
-logging.basicConfig(format="%(asctime)s - %(message)s",
-                    datefmt="%m/%d/%Y %I:%M:%S %p", level=logging.ERROR)
+logging.basicConfig(
+    format="%(asctime)s - %(message)s",
+    datefmt="%m/%d/%Y %I:%M:%S %p",
+    level=logging.ERROR
+)
 
 config = Config("./social_api/.env")
