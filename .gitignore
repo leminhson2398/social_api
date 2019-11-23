@@ -1,4 +1,5 @@
 service_Account.json
+storageService.json
 .env
 __pycache__
 venv

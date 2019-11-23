@@ -1,39 +1,32 @@
-from graphene import Boolean, ObjectType, Mutation as ObjectMutation
-from graphene_file_upload.scalars import Upload
-from starlette.requests import Request
+from graphene import ObjectType, Mutation as ObjectMutation, Boolean, List, String, types, Scalar
 
 
-# class UploadFile(ClientIDMutation):
-#     class Input:
-#         pass
+class Upload(Scalar):
+    def serialize(self):
+        pass
 
-#     ok = Boolean(required=True)
 
-#     @classmethod
-#     async def mutate_and_get_payload(cls, root, info, **kwargs):
-#         form = await info.context["request"].form()
-#         print(form)
+class FileUpload(ObjectMutation):
+    class Input:
+        file = Upload()
+        # id = String(required=True)
 
-#         return UploadFile(
-#             ok=True,
-#         )
-
-class UploadFile(ObjectMutation):
     ok = Boolean(required=True)
+    errors = List(String, required=False)
 
-    class Arguments:
-        file = Upload(required=True)
+    @staticmethod
+    async def mutate(root, args, context, info):
+        # client_signature = files['variables.signature']
+        print(root)
+        print(args)
+        print(context)
+        print(info)
 
-    async def mutate(self, info, file):
-        # print(dir(info.context["request"]))
-        print(file)
-        form = await info.context["request"].form()
-        print(form)
-
-        return UploadFile(
-            ok=True
+        return FileUpload(
+            ok=True,
+            errors=None
         )
 
 
 class Mutation(ObjectType):
-    upload = UploadFile.Field()
+    upload_file = FileUpload.Field()

@@ -1,3 +1,4 @@
+from starlette.datastructures import UploadFile
 from graphene import Schema
 from fastapi import FastAPI
 from starlette.requests import Request
@@ -7,9 +8,10 @@ from .models.schema import Query, Mutation
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from .middleware.auth import AuthBackend
+from .models.file import routes, mutation
 
 
-origins = [
+origins: list = [
     "http://localhost",
     "http://127.0.0.1",
     "http://127.0.0.1:3000",
@@ -18,6 +20,11 @@ origins = [
 
 
 app = FastAPI()
+# includes routes:
+app.include_router(
+    routes.router,
+    prefix="/file"
+)
 # apply middlewares:
 app.add_middleware(
     CORSMiddleware,
@@ -29,16 +36,9 @@ app.add_middleware(
 app.add_middleware(AuthenticationMiddleware, backend=AuthBackend())
 
 
-@app.post("/upload")
-async def upload(request: Request):
-    print(request.method)
-    form = await request.form()
-    print(form)
-
-
 app.add_route(
     "/",
     GraphQLApp(
-        schema=Schema(query=Query, mutation=Mutation), executor_class=AsyncioExecutor
+        schema=Schema(query=Query, mutation=Mutation, types=[mutation.Upload]), executor_class=AsyncioExecutor
     ),
 )

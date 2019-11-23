@@ -11,3 +11,4 @@ class ProductType(ObjectType):
     categories  = List(ID, required=True)
     price       = Decimal(required=True, default_value=0)
     available   = Boolean(required=True, default_value=True)
+    likes       = Int(required=True, default_value=0)
