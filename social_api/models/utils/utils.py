@@ -3,6 +3,7 @@ import logging
 import typing
 from functools import total_ordering, wraps
 import itertools
+from social_api import firestoreDB
 
 
 async def increase_or_decrease_a_document_field(collection, docId: str, fieldName: str, amount: typing.Union[int, float] = 1) -> None:
@@ -30,6 +31,20 @@ async def increase_or_decrease_a_document_field(collection, docId: str, fieldNam
         logging.info(
             f"Successfully updated collection {repr(collection)}, id: {docId}"
         )
+
+
+async def remove_documents_from_a_collection(documentSnapshotList: list) -> None:
+    """
+        iterates over "documentSnapshotList"
+        refers to their documentReference
+        add them to delete stage using batch delete
+    """
+    # refer to: https://firebase.google.com/docs/firestore/manage-data/transactions#batched-writes
+    batch = firestoreDB.batch()
+    for docSnapshot in documentSnapshotList:
+        batch.delete(docSnapshot.reference)
+    # commit the batch:
+    batch.commit()
 
 
 class Promise:

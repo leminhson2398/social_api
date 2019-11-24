@@ -1,7 +1,7 @@
 from graphene import ObjectType, Mutation as ObjectMutation, Boolean, List, String, ID
 from .import USER_FOLLOWING_RELATIONSHIP_COLLECTION
 import logging
-from ..utils.utils import increase_or_decrease_a_document_field
+from ..utils.utils import increase_or_decrease_a_document_field, remove_documents_from_a_collection
 from ..user import USER_COLLECTION
 from ..shop import SHOP_COLLECTION
 
@@ -81,7 +81,7 @@ class ToggleFollowUser(ObjectMutation):
             # if "removeFollowingRelationShips" is not empty, remove all the existing following relation ship:
             if isinstance(followingRelationshipToRemove, list) and amount > 0:
                 background.add_task(
-                    removeFollowingRelationShips,
+                    remove_documents_from_a_collection,
                     followingRelationshipToRemove
                 )
             # IMPORTANT: increase 1 or decrease abitrary to number of followers of the person:
@@ -97,22 +97,6 @@ class ToggleFollowUser(ObjectMutation):
             ok=ok,
             errors=errors,
         )
-
-
-async def removeFollowingRelationShips(followingRelationshipToRemove: list) -> None:
-    """
-        followingRelationshipToRemove is a list of document snapshots
-        deletes all the existing following relation ships between 2 users.
-    """
-    from social_api import firestoreDB
-    # create batch:
-    # refer to: https://firebase.google.com/docs/firestore/manage-data/transactions#batched-writes
-    batch = firestoreDB.batch()
-    for flw in followingRelationshipToRemove:
-        # from document snapshot to document reference by "reference"
-        batch.delete(flw.reference)
-    # commit the batch
-    batch.commit()
 
 
 class ToggleFollowShop(ObjectMutation):
@@ -185,7 +169,7 @@ class ToggleFollowShop(ObjectMutation):
             amount = len(followingRelationShipToRemove)
             if isinstance(followingRelationShipToRemove, list) and amount > 0:
                 background.add_task(
-                    removeFollowingRelationShips,
+                    remove_documents_from_a_collection,
                     followingRelationShipToRemove
                 )
             # IMPORTANT: increase or decrease field "number_of_followers"

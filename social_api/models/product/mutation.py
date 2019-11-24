@@ -1,4 +1,4 @@
-from graphene import Mutation as ObjectMutation, ID, Boolean, List, String, ObjectType, Int, NonNull
+from graphene import Mutation as ObjectMutation, ID, Boolean, List, String, ObjectType, Int
 from .import PRODUCT_LIKE_COLLECTION, PRODUCT_COLLECTION, PRODUCT_REPORT_COLLECTION, PRODUCT_BOOKMARK_COLLECTION
 from ..utils.utils import increase_or_decrease_a_document_field, remove_documents_from_a_collection
 import logging
