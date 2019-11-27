@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "it's fake"
+    },
+    {
+        "id": 2,
+        "name": "it's scam"
+    },
+    {
+        "id": 3,
+        "name": "it's too expensive"
+    },
+    {
+        "id": 4,
+        "name": "it's expired"
+    },
+    {
+        "id": 5,
+        "name": "it's causing environmential pollution"
+    },
+    {
+        "id": 6,
+        "name": "it's violent"
+    },
+    {
+        "id": 7,
+        "name": "it's illegal"
+    },
+    {
+        "id": 8,
+        "name": "it's fraudulent"
+    },
+    {
+        "id": 9,
+        "name": "it's quality is low than advertisement"
+    }
+]

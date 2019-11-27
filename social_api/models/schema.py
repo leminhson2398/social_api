@@ -1,7 +1,7 @@
 from .user.schema import UserMutation, UserQuery
 from .following_relationship.schema import FollowingRelationshipQuery, FollowingRelationshipMutation
 from .shop.schema import ShopQuery
-from .product.schema import ProductQuery
+from .product.schema import ProductQuery, ProductMutation
 from .category.schema import CategoryQuery
 from .file.schema import FileMutation
 
@@ -9,7 +9,8 @@ from .file.schema import FileMutation
 class Mutation(
     UserMutation,
     FollowingRelationshipMutation,
-    FileMutation
+    FileMutation,
+    ProductMutation
 ):
     """
         All the mutations of the app
